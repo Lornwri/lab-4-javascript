@@ -1,10 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Create List</title>
 </head>
 <body>
-$END$
+
+  <p>Enter some text to add to the list</p>
+  <label for="new-text"></label>
+  <input id="new-text">
+  <button id="add-text">Add</button>
+  <button id="clear">Clear</button>
+
+<!--Empty unordered list -->
+<ul id="list-of-text">
+
+</ul>
+
+
+<script>
+//javascript for document
+  let textInput = document.querySelector('#new-text')
+  let addButton = document.querySelector('#add-text')
+  let textList = document.querySelector('#list-of-text')
+  let clearButton = document.querySelector('#clear')
+
+  let elementsInList = 0 //tracking number of items in list
+  let maxElements = 10 // prevents more than 10 elements in list
+
+document.addEventListener('keydown', function(event){
+  if (event.key === 'Enter'){
+    addButton.click(); // clicks add button when Enter button is pressed
+
+  }
+})
+
+  addButton.addEventListener('click', function (){
+
+    if (elementsInList >= maxElements) { //check the max number is not exceeded
+        alert('no more elements can be added')
+        return
+    }
+    let newText = textInput.value //read the text input
+
+    if (newText.length === 0) { //validate user has typed in something
+      alert('Enter some text')
+      return;
+    }
+
+    // create new li element
+    let newListItem = document.createElement('li')
+
+    newListItem.innerHTML = newText // li element text from input
+
+    textList.appendChild(newListItem) // adds the new li element as a child of the ul element
+      textInput.value = ''
+
+    elementsInList++
+  })
+
+  clearButton.addEventListener('click', function () {
+  textList.innerHTML = ''
+  elementsInList = 0
+  })
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

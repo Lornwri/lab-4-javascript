@@ -1,10 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title></title>
 </head>
 <body>
-$END$
+
+<!-- Quiz question within paragraph element -->
+  <p>What is the capital of Wisconsin?</p>
+
+ <!--//Answers for question within button elements-->
+
+  <button class="wrong-answer">Bayfield</button>
+  <button id="correct-answer">Madison</button>
+  <button class="wrong-answer">Milwaukee</button>
+
+<p id="result"></p>
+<p class="wrongAnswer"></p>
+
+<script>
+
+  // Display the correct answer to participant
+  let correctAnswerButton = document.querySelector('#correct-answer')
+
+  let defaultButtonColor = correctAnswerButton.style.background
+
+  let result = document.querySelector('#result')
+
+  let wrongAnswerButtons = document.querySelectorAll('.wrong-answer')
+
+  //Functional style Loop
+  //wrongAnswerButton.forEach(function (wrongAnswerButton) { //loop each element in the wrongAnswerButton node list
+    //Display incorrect answer text to participant when both wrong answer buttons are clicked
+
+    //click event listener for wrong answer buttons
+    // wrongAnswerButton.addEventListener('click', function (){
+    //result.innerHTML = 'wrong answer, try again?'
+      //correctAnswerButton.style.background = defaultButtonColor
+   // })
+  //})
+
+  //imperitive-style loop, for loop
+  for (let x=0; x< wrongAnswerButtons.length;  x++) {
+    let wrongAnswerButton = wrongAnswerButtons[x]
+
+    wrongAnswerButton.addEventListener('click', function () {
+      result.innerHTML = 'Wrong answer, try again?'
+      correctAnswerButton.style.background = defaultButtonColor
+    })
+  }
+
+
+
+    // event listener for correct answer button
+    correctAnswerButton.addEventListener('click', function () {
+    result.innerHTML = 'Correct Answer!' //displays the 'correct answer' text when button is clicked
+    correctAnswerButton.style.background = 'aqua'
+  })
+
+
+
+</script>
+
 </body>
 </html>

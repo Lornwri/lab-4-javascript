@@ -2,9 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student List</title>
 </head>
 <body>
-$END$
+
+<h1>Student List</h1>
+
+<p>Enter student details to add to the list</p>
+
+<!-- Input fields for student details -->
+<label for="student-name">Name:</label>
+<input id="student-name" type="text" placeholder="Student Name">
+<br>
+
+<label for="student-id">ID:</label>
+<input id="student-id" type="text" placeholder="Student ID">
+<br>
+
+<label for="student-gpa">GPA:</label>
+<input id="student-gpa" type="number" placeholder="Student GPA" min="0" max="4" step="0.01">
+<br>
+
+<!-- Buttons for adding, removing, and clearing students -->
+<button id="add-students">Add Student</button>
+<button id="remove-selected-students">Remove Selected</button>
+<button id="clear-list">Clear List</button>
+
+<!-- Unordered list for displaying student entries -->
+<ul id="student-list"></ul>
+
+<!-- Display for the number of students in the list -->
+<p>Number of Students: <span id="student-count">0</span></p>
+
+<script>
+  // Variables for tracking the DOM elements and number of students
+  let studentNameInput = document.querySelector('#student-name');
+  let studentIdInput = document.querySelector('#student-id');
+  let studentGpaInput = document.querySelector('#student-gpa');
+  let addButton = document.querySelector('#add-students');
+  let clearButton = document.querySelector('#clear-list');
+  let removeButton = document.querySelector('#remove-selected-students');
+  let studentList = document.querySelector('#student-list');
+  let studentCount = document.querySelector('#student-count');
+
+  let elementsInList = 0; // Tracks the number of students in the list
+  let maxElements = 10;   // Maximum number of students allowed in the list
+
+  // When the page loads, set the student count to 0
+  document.addEventListener('click', function() {
+    studentCount.textContent = elementsInList;
+  });
+
+  // Event listener for adding a student when the "Add Student" button is clicked
+  addButton.addEventListener('click', function() {
+    // Check if the maximum number of students is reached
+    if (elementsInList >= maxElements) {
+      alert('Cannot add more than 10 students.');
+      return;
+    }
+
+    // Get input values and trim any leading/trailing spaces
+    let studentName = studentNameInput.value.trim();
+    let studentId = studentIdInput.value.trim();
+    let studentGpa = parseFloat(studentGpaInput.value.trim());
+
+    // Validate the input fields
+    if (!studentName) {
+      alert('Please enter a student name.');
+      return;
+    }
+    if (!studentId) {
+      alert('Please enter a student ID.');
+      return;
+    }
+    if (isNaN(studentGpa) || studentGpa < 0 || studentGpa > 4) {
+      // isNan help courtesy of https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN
+      alert('Please enter a valid GPA (0-4).');
+      return;
+    }
+
+    // Create a new list item (li) element for the student
+    let newListItem = document.createElement('li');
+    newListItem.innerHTML = `Name: ${studentName}, ID: ${studentId}, GPA: ${studentGpa.toFixed(2)}`;
+
+    // Add click event to each list item to toggle the "selected" class
+    newListItem.addEventListener('click', function() {
+      newListItem.classList.toggle('selected');
+    });
+
+    // Append the new student item to the unordered list (ul)
+    studentList.appendChild(newListItem);
+
+    // Increment the number of students and update the student count display
+    elementsInList++;
+    studentCount.textContent = elementsInList;
+
+    // Clear the input fields after adding a student
+    studentNameInput.value = '';
+    studentIdInput.value = '';
+    studentGpaInput.value = '';
+  });
+
+  // Event listener for removing selected students
+  removeButton.addEventListener('click', function() {
+    // Select all list items with the "selected" class
+    let selectedStudents = document.querySelectorAll('.selected');
+
+    // Remove each student with class = selected from the list
+    selectedStudents.forEach(student => {
+      student.remove();
+      elementsInList--;
+    });
+
+    // Update the student count after removing students
+    studentCount.textContent = elementsInList;
+  });
+
+  // Event listener for clearing the entire list of students
+  clearButton.addEventListener('click', function() {
+    studentList.innerHTML = ''; // Remove all list items
+    elementsInList = 0; // Reset the count of students to zero
+    studentCount.textContent = elementsInList; // Update the student count display
+  });
+
+</script>
+
 </body>
 </html>
